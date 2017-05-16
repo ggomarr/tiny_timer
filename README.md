@@ -1,14 +1,14 @@
 # tiny_timer
-The class provides a timer that help oversee the progress of large loops or parallelized tasks in a very compact way. It will log, once every so much, how many tasks were completed, how long it took, how many tasks are left and how long it should take. It will also raise a flag if suddenly the loop gets stuck for whateve reason, allowing the user code to halt execution if need be.
+The class provides a timer that helps oversee the progress of large loops or parallelized tasks in a compact way. It will log, once every so much, how many tasks were completed, how long it took, how many tasks are left and how long it should take. It will also raise a flag if suddenly the loop gets stuck for whatever reason, allowing the user code to halt execution if need be.
 
 A normal usage case would be, for example:
 - A task will run on a 10k items list and is expected to take 45 minutes. The user wants to know, once every five minutes, how many items were processed and how long it should take until the loop is done
 - A group of 1m tasks are being parallelized over multiple cores, and the complete task is expected to take over 8 hours. The user wants to confirm, once every half hour, that the parallelizer is on track and did not get stuck, and terminate the pool if it nothing gets processed for too long
 
 The timer should be initialized right before the loop is launched with the following parameters:
-- The total number of tasks (tot)
-- Every how many seconds progress should be logged (timer_step=300)
-- How many seconds without progress should go by before the stuck flag is raised (max_time_stuck=900)
+- tot: the total number of tasks
+- timer_step=300: every how many seconds progress should be logged
+- max_time_stuck=900: how many seconds without progress should go by before the stuck flag is raised
 
 Once the loop is launched, an update can be requested by calling timer.check_timer(cnt), where cnt is the number of tasks that have been completed. The timer will log the progress if timer_step seconds since the last log have gone by, and return the expected number of seconds left until all tasks are done and a flag letting the user code know whether progress is being made.
 
